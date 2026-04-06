@@ -1,28 +1,26 @@
+﻿"""Captive portal detection with HTTP redirect analysis."""
+
 import requests
+from urllib.parse import urlparse
 
-def check_portal():
-    print("\n🌐 Checking for captive portal...")
 
+def check_portal(test_url='http://example.com/', timeout=10):
     try:
-        response = requests.get("http://example.com", timeout=5)
+        response = requests.get(test_url, timeout=timeout, allow_redirects=True)
+        requested_host = urlparse(test_url).hostname or ''
+        final_host = urlparse(response.url).hostname or ''
 
-        if response.url != "http://example.com/":
-            print("⚠️ Redirect detected (Possible captive portal)")
-            return analyze_url(response.url)
+        if response.history:
+            if requested_host != final_host:
+                return 'RISKY'
+            if response.url.startswith('https://'):
+                return 'MODERATE'
 
-        else:
-            print("✅ No captive portal detected")
-            return "SAFE"
+        if response.status_code in (200, 204):
+            if response.url.startswith('https://'):
+                return 'SAFE'
+            return 'MODERATE'
 
-    except:
-        print("⚠️ Network issue / captive portal suspected")
-        return "UNKNOWN"
-
-
-def analyze_url(url):
-    print(f"🔍 Analyzing URL: {url}")
-
-    if url.startswith("https"):
-        return "SAFE"
-    else:
-        return "RISKY"
+        return 'UNKNOWN'
+    except requests.RequestException:
+        return 'UNKNOWN'

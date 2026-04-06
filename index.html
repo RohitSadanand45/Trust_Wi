@@ -1,274 +1,112 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trust-Wi | Advanced Wi-Fi Analyzer</title>
+    <title>Smart Public Wi-Fi Trust Analyzer</title>
     <link rel="stylesheet" href="/static/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-
-<div class="container">
     <header>
-        <h1><i class="fas fa-shield-halved"></i> Trust-Wi</h1>
-        <p class="subtitle">Next-generation network security intelligence</p>
-        <p style="color: var(--text-dim); font-size: 0.95rem; margin-top: 12px;">
-            Analyzes all available networks including public WiFi hotspots, open networks, and encrypted connections.
-        </p>
+        <h1>Smart Public Wi-Fi Trust Analyzer</h1>
+        <p>Scan public Wi-Fi, review trust scores, and monitor for suspicious traffic in real time.</p>
     </header>
+    <main>
+        <section class="controls">
+            <button id="scanButton">Scan Wi-Fi</button>
+            <button id="clearAlertsButton">Clear Alerts</button>
+        </section>
+        <section id="networks" class="network-grid"></section>
+        <section class="alerts-panel">
+            <h2>Real-Time Alerts</h2>
+            <div id="alerts"></div>
+        </section>
+    </main>
+    <script>
+        const scanButton = document.getElementById('scanButton');
+        const networksEl = document.getElementById('networks');
+        const alertsEl = document.getElementById('alerts');
+        const clearAlertsButton = document.getElementById('clearAlertsButton');
 
-    <div class="action-bar">
-        <button id="scanBtn" class="btn-scan" onclick="scanWifi()">
-            <i class="fas fa-satellite-dish"></i>
-            <span>Initialize Scan</span>
-        </button>
-    </div>
-
-    <div class="info-box">
-        <div class="info-item">
-            <span class="status-badge status-SAFE"><i class="fas fa-check-circle"></i> SAFE</span>
-            <p>Encrypted networks (WPA2/WPA3) - Secure for personal data</p>
-        </div>
-        <div class="info-item">
-            <span class="status-badge status-RISKY"><i class="fas fa-triangle-exclamation"></i> RISKY</span>
-            <p>Open networks with no encryption - Public WiFi hotspots</p>
-        </div>
-        <div class="info-item">
-            <span class="status-badge status-MODERATE"><i class="fas fa-circle-info"></i> MODERATE</span>
-            <p>Weak encryption (WEP) - Outdated security</p>
-        </div>
-    </div>
-
-    <div class="alerts-section">
-        <div class="alerts-header">
-            <h3><i class="fas fa-shield-alt"></i> Security Alerts</h3>
-            <button id="clearAlertsBtn" class="btn-clear" onclick="clearAlerts()">
-                <i class="fas fa-trash"></i> Clear
-            </button>
-        </div>
-        <div id="alertsContainer" class="alerts-container">
-            <div class="no-alerts">No security alerts detected. Monitoring will show warnings here.</div>
-        </div>
-    </div>
-
-    <div id="status-area"></div>
-    <div id="results"></div>
-</div>
-
-<script>
-async function scanWifi() {
-    const btn = document.getElementById("scanBtn");
-    const resultsDiv = document.getElementById("results");
-    const statusArea = document.getElementById("status-area");
-
-    // UI Feedback: Disable button and show scanning state
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Scanning...</span>';
-    resultsDiv.innerHTML = "";
-    statusArea.innerHTML = '<div class="radar"></div>';
-
-    try {
-        const response = await fetch('/scan');
-        const data = await response.json();
-        
-        statusArea.innerHTML = "";
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-satellite-dish"></i> <span>Scan Again</span>';
-
-        if (data.length === 0) {
-            resultsDiv.innerHTML = "<p style='text-align:center; color:var(--text-dim)'>No networks found.</p>";
-            return;
-        }
-
-        data.forEach((net, index) => {
-            const card = document.createElement("div");
-            card.className = "card";
-            card.style.animationDelay = `${index * 0.1}s`;
-            
-            const statusClass = `status-${net.status}`;
-            const icon = net.status === 'SAFE' ? 'fa-check-circle' : (net.status === 'RISKY' ? 'fa-triangle-exclamation' : 'fa-circle-info');
-
-            card.innerHTML = `
-                <div class="status-badge ${statusClass}">
-                    <i class="fas ${icon}"></i> ${net.status}
-                </div>
-                <h3>${net.ssid || 'Unknown SSID'}</h3>
-                <div class="security-info">
-                    <i class="fas fa-lock"></i>
-                    <span>${net.security}</span>
-                </div>
-                <button class="btn-connect" onclick="connect(${index}, this)">
-                    <i class="fas fa-plug"></i> Connect & Analyze
-                </button>
-            `;
-            resultsDiv.appendChild(card);
-        });
-    } catch (error) {
-        console.error("Scan failed:", error);
-        statusArea.innerHTML = "<p style='color:var(--risky)'>Error during scan. Background service might be offline.</p>";
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-satellite-dish"></i> <span>Retry Scan</span>';
-    }
-}
-
-async function connect(index, btn) {
-    const originalText = btn.innerHTML;
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Establishing...';
-
-    try {
-        // First, get network details to check if password is needed
-        const scanResponse = await fetch('/scan');
-        const networks = await scanResponse.json();
-        const network = networks[index];
-        
-        let password = null;
-        
-        // Prompt for password if network is encrypted
-        if (network.status === 'SAFE' || network.status === 'MODERATE') {
-            password = prompt(`Enter password for "${network.ssid}":`);
-            if (!password) {
-                alert("Password is required for encrypted networks");
-                btn.disabled = false;
-                btn.innerHTML = originalText;
-                return;
+        async function scanNetworks() {
+            networksEl.innerHTML = '<p class="loading">Scanning networks...</p>';
+            try {
+                const response = await fetch('/scan');
+                const networks = await response.json();
+                if (!Array.isArray(networks)) {
+                    networksEl.innerHTML = '<p class="error">Unable to scan Wi-Fi networks.</p>';
+                    return;
+                }
+                networksEl.innerHTML = networks.map(net => `
+                    <article class="network-card ${net.status.toLowerCase()}">
+                        <div class="network-header">
+                            <strong>${net.ssid}</strong>
+                            <span class="status ${net.status.toLowerCase()}">${net.status}</span>
+                        </div>
+                        <p>Security: ${net.security}</p>
+                        <p>Signal: ${net.signal}</p>
+                        <div class="trust-bar">
+                            <div class="trust-level" style="width: ${net.score}%"></div>
+                        </div>
+                        <p class="trust-summary">Score: ${net.score}/100 — ${net.reason}</p>
+                        <button onclick="connectNetwork(${net.id})">Connect</button>
+                    </article>
+                `).join('');
+            } catch (err) {
+                networksEl.innerHTML = '<p class="error">Scan failed. Please retry.</p>';
             }
         }
 
-        // Send connection request with password if provided
-        const connectData = password ? { password: password } : {};
-        const response = await fetch('/connect/' + index, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(connectData)
+        async function connectNetwork(index) {
+            const password = prompt('Enter password if required (leave blank for open networks):');
+            const response = await fetch(`/connect/${index}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password: password || null }),
+            });
+            const result = await response.json();
+            if (response.ok) {
+                alert(result.message);
+            } else {
+                alert(result.error || 'Connection failed.');
+            }
+        }
+
+        function appendAlert(alert) {
+            const item = document.createElement('div');
+            item.className = `alert-item ${alert.severity.toLowerCase()}`;
+            item.innerHTML = `
+                <span class="alert-type">${alert.severity}</span>
+                <strong>${alert.message}</strong>
+                <div class="alert-details">${alert.details}</div>
+            `;
+            alertsEl.prepend(item);
+            if (alertsEl.children.length > 50) {
+                alertsEl.removeChild(alertsEl.lastChild);
+            }
+        }
+
+        clearAlertsButton.addEventListener('click', async () => {
+            await fetch('/api/clear_alerts', { method: 'POST' });
+            alertsEl.innerHTML = '';
         });
-        
-        const data = await response.json();
-        
-        if (response.ok) {
-            // Show success/status message
-            const statusBadge = btn.closest('.card').querySelector('.status-badge');
-            const oldContent = statusBadge.innerHTML;
-            statusBadge.innerHTML = '<i class="fas fa-link"></i> CONNECTED';
-            statusBadge.style.background = "rgba(56, 189, 248, 0.2)";
-            statusBadge.style.color = "var(--primary)";
 
-            alert(data.message);
-            btn.innerHTML = '<i class="fas fa-chart-line"></i> Monitoring Active';
-        } else {
-            alert(data.error || "Connection failed");
-            btn.disabled = false;
-            btn.innerHTML = originalText;
-        }
-    } catch (error) {
-        alert("Connection failed: " + error.message);
-        btn.disabled = false;
-        btn.innerHTML = originalText;
-    }
-}
+        const eventSource = new EventSource('/api/alerts');
+        eventSource.onmessage = (event) => {
+            try {
+                const alert = JSON.parse(event.data);
+                appendAlert(alert);
+            } catch (error) {
+                console.error(error);
+            }
+        };
 
-// Real-time alerts using Server-Sent Events
-let eventSource = null;
+        eventSource.onerror = () => {
+            console.warn('Alert stream disconnected.');
+        };
 
-function startAlertsStream() {
-    if (eventSource) {
-        eventSource.close();
-    }
-    
-    eventSource = new EventSource('/api/alerts');
-    
-    eventSource.onmessage = function(event) {
-        const alert = JSON.parse(event.data);
-        displayAlert(alert);
-    };
-    
-    eventSource.onerror = function(error) {
-        console.error('SSE Error:', error);
-        // Reconnect after 5 seconds
-        setTimeout(startAlertsStream, 5000);
-    };
-}
-
-function displayAlert(alert) {
-    const alertsContainer = document.getElementById('alertsContainer');
-    const noAlertsMsg = alertsContainer.querySelector('.no-alerts');
-    
-    // Remove "no alerts" message if it exists
-    if (noAlertsMsg) {
-        noAlertsMsg.remove();
-    }
-    
-    // Create alert element
-    const alertElement = document.createElement('div');
-    alertElement.className = `alert alert-${alert.severity.toLowerCase()}`;
-    alertElement.innerHTML = `
-        <div class="alert-header">
-            <span class="alert-time">${new Date(alert.timestamp * 1000).toLocaleTimeString()}</span>
-            <span class="alert-type">${alert.type}</span>
-        </div>
-        <div class="alert-message">${alert.message}</div>
-        <div class="alert-details">${alert.details}</div>
-    `;
-    
-    // Add to top of alerts container
-    alertsContainer.insertBefore(alertElement, alertsContainer.firstChild);
-    
-    // Auto-scroll to top
-    alertsContainer.scrollTop = 0;
-    
-    // Add visual flash effect
-    alertElement.style.animation = 'alertFlash 0.5s ease-in-out';
-    
-    // Play sound for critical alerts
-    if (alert.severity === 'CRITICAL') {
-        playAlertSound();
-    }
-}
-
-function playAlertSound() {
-    // Create audio context for alert sound
-    try {
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
-        
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-        
-        oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-        oscillator.frequency.setValueAtTime(600, audioContext.currentTime + 0.1);
-        
-        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-        
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.3);
-    } catch (e) {
-        console.log('Audio not supported');
-    }
-}
-
-async function clearAlerts() {
-    try {
-        const response = await fetch('/api/clear_alerts', { method: 'POST' });
-        if (response.ok) {
-            const alertsContainer = document.getElementById('alertsContainer');
-            alertsContainer.innerHTML = '<div class="no-alerts">No security alerts detected. Monitoring will show warnings here.</div>';
-        }
-    } catch (error) {
-        console.error('Failed to clear alerts:', error);
-    }
-}
-
-// Start alerts stream when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    startAlertsStream();
-});
-</script>
-
+        scanButton.addEventListener('click', scanNetworks);
+        scanNetworks();
+    </script>
 </body>
 </html>

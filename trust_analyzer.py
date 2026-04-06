@@ -1,18 +1,54 @@
+﻿"""Trust analyzer module for classifying Wi-Fi networks."""
+
+
 def analyze_trust(network):
-    """
-    Analyzes network security status for public WiFi scenarios.
-    Returns: (status, risk_score, reason)
-    - SAFE: WPA2/WPA3 encrypted networks (home/office WiFi)
-    - MODERATE: Weak encryption like WEP
-    - RISKY: Open/unencrypted networks (public free WiFi hotspots)
-    """
-    security = network["security"]
+    security = network.get('security', 'Unknown').lower()
+    signal = network.get('signal', '0%')
+    score = 0
+    reason = 'Unknown security profile'
 
-    if "Open" in security:
-        return "RISKY", 90, "No encryption - Public open network"
-
-    elif "WPA2" in security or "WPA3" in security:
-        return "SAFE", 20, "Strong encryption - Secure"
-
+    if 'open' in security or 'none' in security:
+        status = 'RISKY'
+        score = 20
+        reason = 'Open network with no encryption'
+    elif 'wpa3' in security:
+        status = 'SAFE'
+        score = 95
+        reason = 'Modern WPA3 encryption'
+    elif 'wpa2' in security:
+        status = 'SAFE'
+        score = 85
+        reason = 'Strong WPA2 encryption'
+    elif 'wpa' in security:
+        status = 'MODERATE'
+        score = 65
+        reason = 'Legacy WPA encryption'
+    elif 'wep' in security:
+        status = 'RISKY'
+        score = 30
+        reason = 'Weak WEP encryption'
     else:
-        return "MODERATE", 50, "Weak/Unknown encryption type"
+        status = 'MODERATE'
+        score = 55
+        reason = 'Unknown security mode'
+
+    try:
+        signal_value = int(signal.replace('%', '').strip())
+    except Exception:
+        signal_value = None
+
+    if signal_value is not None:
+        if signal_value < 30:
+            score = max(score - 15, 0)
+            reason += ' + weak signal'
+        elif signal_value > 70:
+            score = min(score + 5, 100)
+
+    if score >= 80:
+        status = 'SAFE'
+    elif score >= 50:
+        status = 'MODERATE'
+    else:
+        status = 'RISKY'
+
+    return status, score, reason

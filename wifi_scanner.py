@@ -1,56 +1,63 @@
 import subprocess
 import re
 
-def scan_wifi():
-    print("\n📡 Scanning Wi-Fi networks...\n")
 
+def scan_wifi():
+    """Scan Wi-Fi networks using Windows netsh and return structured network data."""
     command = "netsh wlan show networks mode=Bssid"
-    result = subprocess.check_output(command, shell=True, text=True, encoding='utf-8', errors='ignore')
+    try:
+        result = subprocess.check_output(
+            command,
+            shell=True,
+            text=True,
+            encoding="utf-8",
+            errors="ignore",
+        )
+    except subprocess.CalledProcessError:
+        return []
+    except Exception:
+        return []
 
     networks = []
-    current_ssid = None
-    current_security = None
+    current = None
 
-    lines = result.split('\n')
-
-    for line in lines:
-        line = line.strip()
-
-        # Match SSID lines: "SSID X : NetworkName"
-        ssid_match = re.match(r'^SSID\s+(\d+)\s*:\s*(.+)$', line)
-        if ssid_match:
-            # Save previous network if we have both SSID and security
-            if current_ssid and current_security:
-                networks.append({
-                    "ssid": current_ssid,
-                    "security": current_security
-                })
-
-            # Start new network
-            current_ssid = ssid_match.group(2).strip()
-            current_security = None
+    for raw_line in result.splitlines():
+        line = raw_line.strip()
+        if not line:
             continue
 
-        # Match Authentication lines
-        if line.startswith('Authentication') and ':' in line:
-            parts = line.split(':', 1)
-            if len(parts) == 2:
-                current_security = parts[1].strip()
+        ssid_match = re.match(r"^SSID\s+\d+\s*:\s*(.*)$", line)
+        if ssid_match:
+            if current and current.get("ssid"):
+                networks.append(current)
 
-    # Don't forget the last network
-    if current_ssid and current_security:
-        networks.append({
-            "ssid": current_ssid,
-            "security": current_security
-        })
+            current = {
+                "ssid": ssid_match.group(1).strip(),
+                "signal": "Unknown",
+                "security": "Unknown",
+            }
+            continue
 
-    # Remove duplicates (same SSID with different security might appear)
+        if current is None:
+            continue
+
+        if line.startswith("Signal") and ":" in line:
+            current["signal"] = line.split(":", 1)[1].strip()
+            continue
+
+        if line.startswith("Authentication") and ":" in line:
+            current["security"] = line.split(":", 1)[1].strip()
+            continue
+
+    if current and current.get("ssid"):
+        networks.append(current)
+
+    unique = []
     seen = set()
-    unique_networks = []
     for net in networks:
-        key = (net['ssid'], net['security'])
+        key = (net["ssid"], net["security"], net["signal"])
         if key not in seen:
             seen.add(key)
-            unique_networks.append(net)
+            unique.append(net)
 
-    return unique_networks
+    return unique
