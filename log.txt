@@ -1,0 +1,152 @@
+2026-04-05 18:39:48.075502 - Portal status: SAFE
+2026-04-05 18:48:24.645685 - Portal status: SAFE
+2026-04-05 20:15:47.697662 - Portal status: SAFE
+2026-04-06 11:41:12.449393 - Network scan failed: 'charmap' codec can't encode character '\U0001f4e1' in position 2: character maps to <undefined>
+2026-04-06 11:41:15.526204 - Network scan failed: 'charmap' codec can't encode character '\U0001f4e1' in position 2: character maps to <undefined>
+2026-04-06 11:41:42.231598 - Network scan failed: 'charmap' codec can't encode character '\U0001f4e1' in position 2: character maps to <undefined>
+2026-04-06 11:41:44.133181 - Portal check failed: 'charmap' codec can't encode character '\U0001f310' in position 2: character maps to <undefined>
+2026-04-06 11:41:46.919952 - Monitoring started via frontend
+2026-04-06 11:41:57.754717 - Portal check failed: 'charmap' codec can't encode character '\U0001f310' in position 2: character maps to <undefined>
+2026-04-06 11:42:19.151919 - Monitoring started via frontend
+2026-04-06 11:43:06.930201 - Portal check failed: 'charmap' codec can't encode character '\U0001f310' in position 2: character maps to <undefined>
+2026-04-06 11:43:25.350669 - Monitoring started via frontend
+2026-04-06 11:44:53.402664 - Scanned Wi-Fi networks via frontend
+2026-04-06 11:45:04.943491 - Scanned Wi-Fi networks via frontend
+2026-04-06 11:45:29.529608 - Portal check via frontend: SAFE
+2026-04-06 11:45:43.498166 - Monitoring started via frontend
+2026-04-06 11:46:04.394886 - Portal check via frontend: SAFE
+2026-04-06 11:46:05.636976 - Monitoring started via frontend
+2026-04-06 11:46:47.292654 - Scanned Wi-Fi networks via frontend
+2026-04-06 11:56:33.767749 - Portal status: SAFE
+2026-04-06 11:58:12.912675 - Portal status: SAFE
+2026-04-06 12:17:53.483953 - Scanned Wi-Fi networks via frontend
+2026-04-06 12:18:40.405699 - Scanned 1 networks
+2026-04-06 12:19:01.747908 - Scanned 1 networks
+2026-04-06 12:19:03.993740 - Connecting to SUCHI
+2026-04-06 12:19:04.060538 - Connected to SUCHI | Portal: SAFE
+2026-04-06 12:21:36.569853 - Scanned 4 networks
+2026-04-06 12:23:04.903976 - Scanned 1 networks
+2026-04-06 12:23:50.488621 - Scanned 1 networks
+2026-04-06 12:23:54.793698 - Scanned 1 networks
+2026-04-06 12:23:56.246752 - Connecting to SUCHI
+2026-04-06 12:23:56.315717 - Connected to SUCHI | Portal: SAFE
+2026-04-06 12:26:37.971159 - Scanned 1 networks
+2026-04-06 12:27:04.986812 - Scanned 5 networks
+2026-04-06 12:28:50.689894 - Connecting to Airtel_DIVI'S
+2026-04-06 12:28:50.773988 - Connected to Airtel_DIVI'S | Portal: SAFE
+2026-04-06 12:29:29.227031 - Scanned 1 networks
+2026-04-06 12:29:50.065042 - Scanned 1 networks
+2026-04-06 12:30:28.735195 - Scanned 1 networks
+2026-04-06 12:30:50.857639 - Scanned 1 networks
+2026-04-06 12:31:51.935470 - Scanned 1 networks
+2026-04-06 12:34:13.382905 - Scanned 1 networks
+2026-04-06 12:34:41.535055 - Scanned 1 networks
+2026-04-06 12:35:16.038036 - Scanned 8 networks
+2026-04-06 12:35:26.292145 - Scanned 8 networks
+2026-04-06 12:35:41.705896 - Scanned 10 networks
+2026-04-06 12:35:48.033510 - Connect failed: 'charmap' codec can't encode character '\u0101' in position 51: character maps to <undefined>
+2026-04-06 12:36:16.391159 - Scanned 10 networks
+2026-04-06 12:36:41.200076 - Scanned 10 networks
+2026-04-06 12:37:15.901091 - Scanned 11 networks
+2026-04-06 12:41:49.549304 - Scanned 8 networks
+2026-04-06 12:41:58.405110 - Attempting to connect to TP-Link_Extender
+2026-04-06 12:41:58.405773 - Connect failed: 415 Unsupported Media Type: Did not attempt to load JSON data because the request Content-Type was not 'application/json'.
+2026-04-06 12:41:58.415308 - Attempting to connect to ACT101641129115_5g
+2026-04-06 12:41:58.416301 - Connect failed: 415 Unsupported Media Type: Did not attempt to load JSON data because the request Content-Type was not 'application/json'.
+2026-04-06 12:41:58.423374 - Attempting to connect to ACT101641129115_5g
+2026-04-06 12:42:09.780523 - Successfully connected to ACT101641129115_5g | Portal: UNKNOWN
+2026-04-06 12:44:27.256190 - Scanned 1 networks
+2026-04-06 12:45:31.387284 - Scanned 6 networks
+2026-04-06 12:45:31.395675 - Attempting to connect to ACT101641129115_5g
+2026-04-06 12:45:31.396725 - Connect failed: 415 Unsupported Media Type: Did not attempt to load JSON data because the request Content-Type was not 'application/json'.
+2026-04-06 12:45:31.403812 - Attempting to connect to ACT101641129115_5g
+2026-04-06 12:45:31.762330 - Successfully connected to ACT101641129115_5g | Portal: UNKNOWN
+2026-04-06 12:46:18.567784 - Scanned 9 networks
+2026-04-06 12:46:22.850626 - Scanned 9 networks
+2026-04-06 12:46:37.777685 - Attempting to connect to SUCHI
+2026-04-06 12:46:38.315650 - Successfully connected to SUCHI | Portal: UNKNOWN
+2026-04-06 12:47:48.653539 - Scanned 3 networks
+2026-04-06 12:47:55.659965 - Scanned 3 networks
+2026-04-06 12:47:56.630644 - Scanned 3 networks
+2026-04-06 12:47:56.878545 - Scanned 3 networks
+2026-04-06 12:47:57.104402 - Scanned 3 networks
+2026-04-06 12:47:57.351987 - Scanned 3 networks
+2026-04-06 12:47:57.525180 - Scanned 3 networks
+2026-04-06 12:48:03.441065 - Scanned 3 networks
+2026-04-06 12:48:06.008149 - Scanned 3 networks
+2026-04-06 12:48:08.249633 - Scanned 3 networks
+2026-04-06 12:48:10.765422 - Scanned 3 networks
+2026-04-06 12:48:13.741787 - Connect failed: 'charmap' codec can't encode character '\u0101' in position 62: character maps to <undefined>
+2026-04-06 12:48:17.410039 - Scanned 3 networks
+2026-04-06 12:48:23.641027 - Connect failed: 'charmap' codec can't encode character '\u0101' in position 62: character maps to <undefined>
+2026-04-06 12:48:27.157771 - Scanned 3 networks
+2026-04-06 12:48:34.364544 - Connect failed: 'charmap' codec can't encode character '\u0101' in position 62: character maps to <undefined>
+2026-04-06 12:48:50.531572 - Scanned 1 networks
+2026-04-06 12:48:58.623859 - Scanned 1 networks
+2026-04-06 12:49:02.985012 - Scanned 1 networks
+2026-04-06 12:49:06.449388 - Scanned 1 networks
+2026-04-06 12:49:38.253015 - Scanned 1 networks
+2026-04-06 12:49:41.709721 - Scanned 2 networks
+2026-04-06 12:49:50.129361 - Scanned 3 networks
+2026-04-06 12:49:52.177792 - Scanned 3 networks
+2026-04-06 12:49:56.394570 - Scanned 3 networks
+2026-04-06 12:49:57.423005 - Scanned 3 networks
+2026-04-06 12:49:58.004541 - Scanned 3 networks
+2026-04-06 12:49:58.835561 - Scanned 3 networks
+2026-04-06 12:50:05.665618 - Attempting to connect to SUCHI
+2026-04-06 12:50:07.017627 - Successfully connected to SUCHI | Portal: SAFE
+2026-04-06 12:53:39.210190 - Scanned 6 networks
+2026-04-06 12:54:58.929351 - Scanned 5 networks
+2026-04-06 12:55:11.192886 - Scanned 1 networks
+2026-04-06 12:55:16.202966 - Attempting to connect to SUCHI
+2026-04-06 12:55:16.322175 - Failed to connect to SUCHI: Failed to add WiFi profile
+2026-04-06 12:55:43.450368 - Monitoring stopped via API
+2026-04-06 12:56:58.922067 - Scanned 1 networks
+2026-04-06 12:57:03.487616 - Scanned 1 networks
+2026-04-06 12:57:07.720997 - Scanned 1 networks
+2026-04-06 12:57:12.606612 - Scanned 1 networks
+2026-04-06 12:57:24.498183 - Attempting to connect to SUCHI
+2026-04-06 12:57:25.020521 - Successfully connected to SUCHI | Portal: UNKNOWN
+2026-04-06 12:59:05.450733 - Scanned 2 networks
+2026-04-06 12:59:08.701435 - Scanned 2 networks
+2026-04-06 12:59:08.709530 - Attempting to connect to TP-Link_Extender
+2026-04-06 12:59:08.838083 - Failed to connect to TP-Link_Extender: Connection command failed
+2026-04-06 12:59:12.736897 - Scanned 2 networks
+2026-04-06 12:59:12.746153 - Attempting to connect to TP-Link_Extender
+2026-04-06 12:59:12.843818 - Failed to connect to TP-Link_Extender: Connection command failed
+2026-04-06 12:59:16.144241 - Scanned 2 networks
+2026-04-06 12:59:22.300211 - Scanned 2 networks
+2026-04-06 12:59:22.309773 - Attempting to connect to TP-Link_Extender
+2026-04-06 12:59:22.409234 - Failed to connect to TP-Link_Extender: Connection command failed
+2026-04-06 12:59:27.227640 - Scanned 1 networks
+2026-04-06 12:59:33.086091 - Scanned 1 networks
+2026-04-06 12:59:35.728359 - Scanned 1 networks
+2026-04-06 12:59:36.561123 - Scanned 1 networks
+2026-04-06 12:59:51.184714 - Scanned 1 networks
+2026-04-06 12:59:53.250993 - Scanned 1 networks
+2026-04-06 13:01:23.111356 - Scanned 5 networks
+2026-04-06 13:01:26.425947 - Scanned 5 networks
+2026-04-06 13:01:36.182267 - Connect failed: 'charmap' codec can't encode character '\u0101' in position 62: character maps to <undefined>
+2026-04-06 13:01:38.993074 - Scanned 5 networks
+2026-04-06 13:01:46.155719 - Connect failed: 'charmap' codec can't encode character '\u0101' in position 62: character maps to <undefined>
+2026-04-06 13:01:49.794818 - Scanned 5 networks
+2026-04-06 13:01:56.293125 - Attempting to connect to SUCHI
+2026-04-06 13:01:59.728784 - Successfully connected to SUCHI | Portal: SAFE
+2026-04-06 13:02:15.762845 - Scanned 8 networks
+2026-04-06 13:02:19.457774 - Scanned 8 networks
+2026-04-06 13:02:19.465942 - Attempting to connect to TP-Link_Extender
+2026-04-06 13:02:19.566212 - Failed to connect to TP-Link_Extender: Connection command failed
+2026-04-06 13:02:21.899609 - Scanned 8 networks
+2026-04-06 13:04:43.635858 - Scanned 5 networks
+2026-04-06 13:05:02.390292 - Scanned 7 networks
+2026-04-06 13:13:38.313825 - Scanned 1 networks
+2026-04-06 13:14:04.605346 - Scanned 1 networks
+2026-04-06 13:14:06.369986 - Scanned 1 networks
+2026-04-06 13:14:12.382528 - Attempting to connect to SUCHI
+2026-04-06 13:14:13.798456 - Successfully connected to SUCHI | Portal: SAFE
+2026-04-06 13:18:15.502913 - Scanned 3 networks
+2026-04-06 13:18:22.923202 - Scanned 3 networks
+2026-04-06 13:18:28.141726 - Attempting to connect to SUCHI
+2026-04-06 13:18:30.504285 - Successfully connected to SUCHI | Portal: SAFE
+2026-04-06 13:20:34.520327 - Scanned 4 networks
+2026-04-06 13:20:37.895125 - Scanned 4 networks
